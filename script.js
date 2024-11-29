@@ -1,3 +1,19 @@
+// Typing Animation for Hero Section
+const text = "Flutter Developer | Full-Stack Developer | MERN Stack Developer & UI/UX Designer";
+const typingText = document.querySelector('.typing-text');
+let i = 0;
+
+function typeWriter() {
+    if (i < text.length) {
+        typingText.textContent = text.substring(0, i + 1);
+        i++;
+        setTimeout(typeWriter, 50);
+    }
+}
+
+// Start typing animation when page loads
+window.addEventListener('load', typeWriter);
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -31,6 +47,24 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
+// Scroll to Top Button
+const scrollTopBtn = document.querySelector('.scroll-top');
+
+window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+        scrollTopBtn.classList.add('visible');
+    } else {
+        scrollTopBtn.classList.remove('visible');
+    }
+});
+
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
 // Add animation to elements when they come into view
 const observerOptions = {
     root: null,
@@ -43,15 +77,25 @@ const observer = new IntersectionObserver((entries, observer) => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
+            
+            // Animate skill bars if the entry is a skill item
+            if (entry.target.classList.contains('skill-item')) {
+                const progressBar = entry.target.querySelector('.skill-progress');
+                if (progressBar) {
+                    const progress = progressBar.style.transform.replace('scaleX(', '').replace(')', '');
+                    progressBar.style.transform = `scaleX(${progress})`;
+                }
+            }
+            
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe all sections except the hero section
-document.querySelectorAll('section:not(#home)').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'all 0.6s ease-out';
-    observer.observe(section);
+// Observe all sections and skill items
+document.querySelectorAll('section:not(#home), .skill-item').forEach(element => {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(20px)';
+    element.style.transition = 'all 0.6s ease-out';
+    observer.observe(element);
 });
