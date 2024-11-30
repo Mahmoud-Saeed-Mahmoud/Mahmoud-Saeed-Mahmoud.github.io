@@ -99,3 +99,27 @@ document.querySelectorAll('section:not(#home), .skill-item').forEach(element => 
     element.style.transition = 'all 0.6s ease-out';
     observer.observe(element);
 });
+
+// Handle service card touch events
+document.querySelectorAll('.service-card').forEach(card => {
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    card.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    card.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        const cardInner = card.querySelector('.service-card-inner');
+        
+        // If it's a tap (not a swipe), toggle the flip
+        if (Math.abs(touchEndX - touchStartX) < 5) {
+            if (cardInner.style.transform === 'rotateY(180deg)') {
+                cardInner.style.transform = 'rotateY(0)';
+            } else {
+                cardInner.style.transform = 'rotateY(180deg)';
+            }
+        }
+    });
+});
