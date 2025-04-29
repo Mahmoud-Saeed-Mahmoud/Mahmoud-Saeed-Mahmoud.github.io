@@ -283,35 +283,83 @@ body {
     color: var(--bg-color);
 }
 
-/* Contact Section */
-.contact {
-    padding: 6rem 0;
-    background-color: var(--section-bg);
+/* Footer */
+footer {
+    padding: 4rem 0 2rem; /* Adjusted padding */
+    background-color: var(--text-color);
+    color: var(--bg-color);
 }
 
-.contact h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2.5rem;
+.footer-content {
+    display: flex;
+    justify-content: space-around; /* Space out sections */
+    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 2rem; /* Add gap between sections */
+    margin-bottom: 2rem; /* Space before copyright */
+}
+
+.footer-section {
+    flex: 1; /* Allow sections to grow */
+    min-width: 250px; /* Minimum width for sections */
+    text-align: center; /* Center content within sections */
+}
+
+.footer-section h2 {
+    font-size: 1.5rem; /* Slightly smaller heading */
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color); /* Use accent color */
 }
 
 .contact-links {
     display: flex;
-    justify-content: center;
-    gap: 2rem;
+    justify-content: center; /* Center links */
+    gap: 1.5rem; /* Adjust gap */
 }
 
 .contact-item {
-    display: flex;
+    display: inline-flex; /* Use inline-flex for better alignment */
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
-    color: var(--text-color);
-    transition: color 0.3s ease;
+    color: var(--bg-color); /* White text */
+    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 1rem;
+}
+
+.contact-item i {
+    font-size: 1.2rem; /* Slightly larger icon */
 }
 
 .contact-item:hover {
     color: var(--primary-color);
+    transform: translateY(-2px); /* Add subtle hover effect */
+}
+
+.hire-me-button {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.hire-me-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--bg-color); /* Ensure text color remains white on hover */
+    transform: translateY(-2px);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 2rem; /* Add padding above copyright */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+}
+
+.copyright p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7); /* Slightly dimmer text */
 }
 
 .scroll-top {
@@ -343,13 +391,7 @@ body {
     transform: translateY(-5px);
 }
 
-/* Footer */
-footer {
-    padding: 2rem 0;
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    text-align: center;
-}
+
 
 /* Animations */
 @keyframes fadeInUp {
@@ -387,8 +429,17 @@ footer {
         gap: 1rem;
     }
 
-    .contact-links {
+    .footer-content {
         flex-direction: column;
         align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        margin-bottom: 2rem;
+    }
+
+    .contact-links {
+        justify-content: center;
     }
 }
