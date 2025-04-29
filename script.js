@@ -1,5 +1,5 @@
 // Typing Animation for Hero Section
-const text = "Flutter Developer | Backend Developer | Full-Stack Developer | MERN Stack Developer & UI/UX Designer";
+const text = "Flutter Developer | Backend Developer | Full-Stack Developer | MERN Stack Developer | UI/UX Designer";
 const typingText = document.querySelector('.typing-text');
 let i = 0;
 
