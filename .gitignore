@@ -4,4 +4,4 @@ node_modules/
 .vscode/
 *.log
 
-projects/
+# projects/

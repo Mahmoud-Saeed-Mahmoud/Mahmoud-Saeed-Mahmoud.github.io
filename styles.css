@@ -67,17 +67,27 @@ body {
 
 /* Hero Section */
 .hero {
-    height: 100vh;
+    min-height: calc(100vh - 72px); /* Adjusted for fixed navbar height (assuming navbar is 72px) */
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, var(--bg-color) 0%, var(--section-bg) 100%);
     padding-top: 60px;
+}
+
+.hero .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensure content within can be centered effectively */
 }
 
 .hero h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
     animation: fadeInUp 1s ease;
+    text-align: center; /* Added to center the name */
 }
 
 .hero h2 {
@@ -86,10 +96,12 @@ body {
     margin-bottom: 2rem;
     animation: fadeInUp 1s ease 0.2s;
     animation-fill-mode: both;
+    text-align: center; /* Added to center the titles */
 }
 
 .social-links {
     display: flex;
+    justify-content: center; /* Added to center social links */
     gap: 1.5rem;
     animation: fadeInUp 1s ease 0.4s;
     animation-fill-mode: both;
@@ -283,7 +295,86 @@ body {
     color: var(--bg-color);
 }
 
-/* Work Section */
+/* Project Carousel Section */
+.work h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Adjust as needed */
+    margin: 2rem auto; /* Center the carousel */
+    overflow: hidden; /* Crucial for slide effect - hides parts of images outside the viewport */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-slides {
+    display: flex; /* Aligns images in a row */
+    transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+}
+
+.carousel-inner {
+    display: flex; /* Arrange images in a row */
+    transition: transform 0.5s ease-in-out; /* Slide transition */
+    width: 100%; /* Ensure inner container takes full width of its parent */
+}
+
+.carousel-image {
+    min-width: 100%; /* Each image takes full width of the viewport */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 400px; /* Added to prevent images from becoming too tall */
+    object-fit: contain; /* Ensure the whole image is visible, letterboxing if necessary */
+    /* display: none; and opacity: 0; are no longer needed for slide */
+    /* transition: opacity 0.5s ease-in-out; is removed */
+}
+
+/* .carousel-image-active is no longer needed for slide logic, JS will handle transform */
+
+/* 
+  The .carousel-image:first-child rule that previously set 'display: block;' 
+  has been removed. The initial display of the first slide is handled 
+  by the JavaScript function showSlides(0) which is called on page load.
+  The JavaScript will now set the initial transform.
+*/
+
+/* Next & previous buttons */
+.carousel-button {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+}
+
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.next {
+    right: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Work Section - Old styles, can be removed or repurposed if no longer needed elsewhere */
 .work {
     padding: 4rem 0;
     background-color: var(--bg-color);

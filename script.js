@@ -112,14 +112,94 @@ document.querySelectorAll('.service-card').forEach(card => {
     card.addEventListener('touchend', e => {
         touchEndX = e.changedTouches[0].screenX;
         const cardInner = card.querySelector('.service-card-inner');
-        
-        // If it's a tap (not a swipe), toggle the flip
-        if (Math.abs(touchEndX - touchStartX) < 5) {
-            if (cardInner.style.transform === 'rotateY(180deg)') {
-                cardInner.style.transform = 'rotateY(0)';
-            } else {
-                cardInner.style.transform = 'rotateY(180deg)';
+        if (cardInner) {
+            // Check if it was a swipe left or right (optional, for more complex interactions)
+            // For simplicity, we'll just toggle on tap/touchend
+            if (Math.abs(touchEndX - touchStartX) < 10) { // Threshold for tap vs swipe
+                 if (cardInner.style.transform === 'rotateY(180deg)') {
+                    cardInner.style.transform = 'rotateY(0deg)';
+                } else {
+                    cardInner.style.transform = 'rotateY(180deg)';
+                }
             }
         }
     });
 });
+
+// Carousel Functionality
+let slideIndex = 0;
+let autoScrollInterval; // Variable to hold the interval ID
+const AUTO_SCROLL_DELAY = 3000; // Auto-scroll every 3 seconds
+
+/**
+ * Starts the automatic scrolling of the carousel.
+ */
+function startAutoScroll() {
+  stopAutoScroll(); // Clear any existing interval
+  autoScrollInterval = setInterval(() => {
+    moveSlide(1); // Move to the next slide
+  }, AUTO_SCROLL_DELAY);
+}
+
+/**
+ * Stops the automatic scrolling of the carousel.
+ */
+function stopAutoScroll() {
+  clearInterval(autoScrollInterval);
+}
+
+showSlides(slideIndex);
+startAutoScroll(); // Start auto-scrolling when the page loads
+
+// Optional: Pause auto-scroll on mouse hover over the carousel
+const carouselContainer = document.querySelector('.carousel-container'); // Assuming your carousel has this class or an ID
+if (carouselContainer) {
+  carouselContainer.addEventListener('mouseenter', stopAutoScroll);
+  carouselContainer.addEventListener('mouseleave', startAutoScroll);
+}
+
+// Next/previous controls
+/**
+ * Moves the carousel to the next or previous slide.
+ * @param {number} n - The number of slides to move (1 for next, -1 for previous).
+ */
+function moveSlide(n) {
+  showSlides(slideIndex += n);
+  // Reset auto-scroll timer when manually navigating
+  // This prevents an immediate auto-scroll after a manual click
+  if (autoScrollInterval) { 
+    startAutoScroll();
+  }
+}
+
+// Thumbnail image controls - if you add thumbnails
+// function currentSlide(n) {
+//   showSlides(slideIndex = n);
+// }
+
+/**
+ * Displays the appropriate slide in the carousel with a slide transition.
+ * @param {number} n - The index of the slide to show.
+ */
+function showSlides(n) {
+  const slides = document.getElementsByClassName("carousel-image");
+  const carouselInner = document.querySelector('.carousel-inner');
+
+  if (!carouselInner || slides.length === 0) return; // No images or container
+
+  if (n >= slides.length) { slideIndex = 0; } // Loop to first slide
+  if (n < 0) { slideIndex = slides.length - 1; } // Loop to last slide
+
+  // Calculate the new transform value
+  const newTransformValue = -slideIndex * 100; // Each slide is 100% width
+  carouselInner.style.transform = `translateX(${newTransformValue}%)`;
+
+  // If you add dots for navigation, update them here
+  // let dots = document.getElementsByClassName("dot");
+  // for (i = 0; i < dots.length; i++) {
+  //     dots[i].className = dots[i].className.replace(" active", "");
+  // }
+  // if (dots.length > 0) {
+  //    dots[slideIndex].className += " active";
+  // }
+}
