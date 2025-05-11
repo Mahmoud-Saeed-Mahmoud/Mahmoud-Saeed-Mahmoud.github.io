@@ -256,6 +256,10 @@ body {
 }
 
 /* Skills Section */
+.tech-item i {
+    margin-right: 8px; /* Adjust spacing as needed */
+    color: var(--primary-color); /* Optional: Match icon color to primary theme color */
+}
 .skills {
     padding: 4rem 0;
 }
@@ -295,6 +299,10 @@ body {
     color: var(--bg-color);
 }
 
+.tech-item:hover i {
+    color: var(--bg-color); /* Make icon color same as text color on hover */
+}
+
 /* Project Carousel Section */
 .work h2 {
     text-align: center;
@@ -329,6 +337,8 @@ body {
     height: auto; /* Maintain aspect ratio */
     max-height: 400px; /* Added to prevent images from becoming too tall */
     object-fit: contain; /* Ensure the whole image is visible, letterboxing if necessary */
+    background-color: #f0f0f0; /* Diagnostic: show image area */
+    border: 1px solid #ddd; /* Diagnostic: show image border */
     /* display: none; and opacity: 0; are no longer needed for slide */
     /* transition: opacity 0.5s ease-in-out; is removed */
 }
