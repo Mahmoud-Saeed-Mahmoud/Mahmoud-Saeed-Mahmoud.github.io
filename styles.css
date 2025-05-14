@@ -121,7 +121,7 @@ body {
 
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 70%; /* Adjusted for taller video, aiming for ~2 card rows height */
     height: 0;
     overflow: hidden;
     max-width: 800px; /* Max width of the video */
@@ -137,6 +137,11 @@ body {
     width: 100%;
     height: 100%;
     border: 0; /* Remove default iframe border */
+}
+
+.what-i-do h3 {
+    margin-top: 2.5rem; /* Added space above 'What I Do' heading */
+    margin-bottom: 1.5rem; /* Optional: ensure space below heading too */
 }
 
 .about {
