@@ -569,6 +569,66 @@ footer {
 
 
 
+/* Custom Cursor Styles */
+.cursor-dot,
+.cursor-dot-outline {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 1;
+    transform: translate(0, 0);
+    z-index: 9999;
+    will-change: transform; /* Optimize for animations */
+}
+
+.cursor-dot {
+    width: 12px; /* Increased from 8px */
+    height: 12px; /* Increased from 8px */
+    background-color: var(--primary-color);
+    transition: background-color 0.2s ease-in-out; /* Faster color transition */
+    z-index: 10000; /* Ensure dot is above outline */
+}
+
+.cursor-dot-outline {
+    width: 32px; /* Decreased from 40px */
+    height: 32px; /* Decreased from 40px */
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    transition: border-color 0.2s ease-in-out; /* Faster color transition */
+}
+
+body.cursor-hover .cursor-dot {
+    transform: translate(-6px, -6px) scale(1.5);
+    background-color: var(--secondary-color);
+}
+
+body.cursor-hover .cursor-dot-outline {
+    transform: translate(-16px, -16px) scale(1.2);
+    border-color: var(--secondary-color);
+}
+
+/* Hide default cursor when custom cursor is active */
+body.custom-cursor {
+    cursor: none;
+}
+
+/* Ensure clickable elements still show pointer cursor for usability */
+body.custom-cursor a,
+body.custom-cursor button,
+body.custom-cursor .service-card,
+body.custom-cursor .project-card,
+body.custom-cursor .tech-item,
+body.custom-cursor .carousel-button,
+body.custom-cursor .scroll-top,
+body.custom-cursor .contact-item,
+body.custom-cursor .hire-me-button {
+    cursor: none;
+}
+
+
+
 /* Animations */
 @keyframes fadeInUp {
     from {

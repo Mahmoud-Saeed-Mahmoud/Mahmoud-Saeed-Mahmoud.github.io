@@ -203,3 +203,122 @@ function showSlides(n) {
   //    dots[slideIndex].className += " active";
   // }
 }
+
+// Custom Cursor Implementation
+let cursorDot, cursorOutline;
+let lastX = 0, lastY = 0;
+let dotX = 0, dotY = 0;
+let outlineX = 0, outlineY = 0;
+let isMoving = false;
+let lastMoveTime = 0;
+const DEBOUNCE_TIME = 50; // Reduced from 200ms to 50ms for faster response
+
+/**
+ * Initializes the custom cursor elements and event listeners.
+ */
+function initCustomCursor() {
+  // Create cursor elements
+  cursorDot = document.createElement('div');
+  cursorDot.className = 'cursor-dot';
+  document.body.appendChild(cursorDot);
+
+  cursorOutline = document.createElement('div');
+  cursorOutline.className = 'cursor-dot-outline';
+  document.body.appendChild(cursorOutline);
+
+  // Add custom-cursor class to body
+  document.body.classList.add('custom-cursor');
+
+  // Set up event listeners with passive option for better performance
+  document.addEventListener('mousemove', trackMouse, { passive: true });
+  document.addEventListener('mouseenter', showCursor);
+  document.addEventListener('mouseleave', hideCursor);
+
+  // Add hover effect to interactive elements
+  const interactiveElements = document.querySelectorAll(
+    'a, button, .service-card, .project-card, .tech-item, .carousel-button, .scroll-top, .contact-item, .hire-me-button'
+  );
+
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.add('cursor-hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      document.body.classList.remove('cursor-hover');
+    });
+  });
+
+  // Initial position to avoid jumps
+  dotX = outlineX = window.innerWidth / 2;
+  dotY = outlineY = window.innerHeight / 2;
+  
+  // Start animation loop
+  requestAnimationFrame(animateCursor);
+}
+
+/**
+ * Tracks mouse movement with debounce.
+ * @param {MouseEvent} e - The mouse event.
+ */
+function trackMouse(e) {
+  lastX = e.clientX;
+  lastY = e.clientY;
+  
+  // Update last move time for debounce
+  lastMoveTime = Date.now();
+  
+  if (!isMoving) {
+    isMoving = true;
+    document.body.classList.add('cursor-moving');
+  }
+}
+
+/**
+ * Shows the custom cursor.
+ */
+function showCursor() {
+  cursorDot.style.opacity = '1';
+  cursorOutline.style.opacity = '1';
+}
+
+/**
+ * Hides the custom cursor.
+ */
+function hideCursor() {
+  cursorDot.style.opacity = '0';
+  cursorOutline.style.opacity = '0';
+}
+
+/**
+ * Animates the cursor with smooth movement and debounce.
+ */
+function animateCursor() {
+  // Apply debounce to detect when cursor stops moving
+  const now = Date.now();
+  if (isMoving && now - lastMoveTime > DEBOUNCE_TIME) {
+    isMoving = false;
+    document.body.classList.remove('cursor-moving');
+  }
+
+  // Smooth movement for dot (faster - allow it to move more freely)
+  dotX += (lastX - dotX) * 0.6; // Increased to 0.6 for even faster response
+  dotY += (lastY - dotY) * 0.6;
+  
+  // Smoother movement for outline (slower with 50ms delay)
+  // Using a smaller factor creates more delay between inner and outer circles
+  outlineX += (lastX - outlineX) * 0.08; // Reduced for more delay
+  outlineY += (lastY - outlineY) * 0.08;
+
+  // Apply positions with correct offset
+  // For the dot (center is 6px from top-left since dot is now 12px)
+  cursorDot.style.transform = `translate(${dotX - 6}px, ${dotY - 6}px)`;
+  
+  // For the outline (center is 16px from top-left since outline is now 32px)
+  cursorOutline.style.transform = `translate(${outlineX - 16}px, ${outlineY - 16}px)`;
+
+  // Continue animation loop
+  requestAnimationFrame(animateCursor);
+}
+
+// Initialize custom cursor when DOM is loaded
+document.addEventListener('DOMContentLoaded', initCustomCursor);
